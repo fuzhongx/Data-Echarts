@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import DataEcharts from "./components/DataEcharts.vue";
+import DataEcharts from "./view/DataEcharts.vue";
 
 </script>
 
