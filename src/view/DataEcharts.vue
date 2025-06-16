@@ -46,7 +46,9 @@
 
         <!-- 地图展示 -->
         <div class="mapShow">
-          <div class="chart"></div>
+          <div class="chart">
+            <MapEchart></MapEchart>
+          </div>
           <div class="map1"></div>
           <div class="map2"></div>
           <div class="map3"></div>
@@ -84,6 +86,7 @@ import Skill from "@/components/SkiEchart.vue";
 import Age from "@/components/AgeEchart.vue";
 import Play from "@/components/PlayEchart.vue";
 import Location from "@/components/LocaEchart.vue";
+import MapEchart from "@/components/MapEchart.vue";
 
 import { onMounted } from "vue";
 
@@ -120,7 +123,6 @@ function time() {
 </script>
 
 <style lang="scss" scoped>
-// @import url('@/assets/font/DS-DIGIT.TTF');
 .box {
   background-image: url("@/assets/image/bg.jpg");
   background-repeat: no-repeat;
