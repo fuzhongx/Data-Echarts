@@ -5,10 +5,13 @@ module.exports = defineConfig({
   css: {
     loaderOptions: {
       sass: {
-        additionalData: `@import "@/style/main.scss";` // 全局引入
+        additionalData: `@use "@/style/main.scss";` // 全局引入
       }
     }
   },
+  devServer:{
+    
+  }
   // configureWebpack: {
   //   plugins: [
   //     new webpack.DefinePlugin({

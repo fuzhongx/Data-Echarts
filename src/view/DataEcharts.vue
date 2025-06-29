@@ -2,7 +2,7 @@
   <div class="box">
     <div class="header">
       <h1>可视化展板-ECharts</h1>
-      <div class="showTime"></div>
+      <div class="showTime">{{ showTime }}</div>
     </div>
     <div class="Echarts">
       <!-- 左侧面板 -->
@@ -26,14 +26,14 @@
         </div>
       </div>
 
-    <!-- 地图展示 -->
+      <!-- 地图展示 -->
       <div class="column map">
         <!-- 面板展示数字 -->
         <div class="num">
           <div class="numShow">
             <ul>
-              <li class="line">125811</li>
-              <li>104563</li>
+              <li class="line">{{ count }}</li>
+              <li>{{ getShopTime }}</li>
             </ul>
           </div>
           <div class="numSum">
@@ -88,11 +88,33 @@ import Play from "@/components/PlayEchart.vue";
 import Location from "@/components/LocaEchart.vue";
 import MapEchart from "@/components/MapEchart.vue";
 
-import { onMounted } from "vue";
+import { onBeforeUnmount, onMounted, ref } from "vue";
 
-onMounted(()=>{
-  var t = null;
+let showTime=ref()
+
+let numTime = null;
+let numRadom = null;
+
+let randomNUM = ref(0);//前端时间
+let getRandomTime = ref(0); //市场时间
+
+const count = ref(JSON.parse(localStorage.getItem("VueNum"))?JSON.parse(localStorage.getItem("VueNum")):0 ); //存储前段人数
+const getShopTime = ref(JSON.parse(localStorage.getItem("ShopTime"))?JSON.parse(localStorage.getItem("ShopTime")):0); //存储市场人数
+
+//当日时间
+var t = null;
 t = setTimeout(time, 1000); //開始运行
+
+onMounted(() => {
+  //前段需求人数
+  numTimeHandel();
+  randomTime();
+  getRandom();
+  shopTimeHandel();
+  time();
+});
+
+//=当天日期时间
 function time() {
   clearTimeout(t); //清除定时器
   const dt = new Date();
@@ -102,7 +124,7 @@ function time() {
   var h = dt.getHours(); //获取时
   var m = dt.getMinutes(); //获取分
   var s = dt.getSeconds(); //获取秒
- document.querySelector('.showTime').innerHTML =
+  showTime.value =
     "当前时间：" +
     y +
     "年" +
@@ -118,8 +140,46 @@ function time() {
     "秒";
   t = setTimeout(time, 1000); //设定定时器，循环运行
 }
-})
+// 市场需求时间
+const getRandom = () => {
+  setInterval(() => {
+    getRandomTime.value = Math.floor(Math.random() * 90) + 10;
+  }, 1000);
+};
 
+const shopTimeHandel = () => {
+  setInterval(() => {
+    if (getShopTime.value >= 900000) {
+      getShopTime.value = 0;
+    } else {
+      getShopTime.value += getRandomTime.value;
+    }
+    localStorage.setItem("ShopTime", getShopTime.value);
+  }, 1000);
+};
+
+// 前端时间
+const randomTime = () => {
+  numRadom = setInterval(() => {
+    randomNUM.value = Math.floor(Math.random() * 10);
+  }, 1000);
+};
+
+const numTimeHandel = () => {
+  numTime = setInterval(() => {
+    if (count.value >= 900000) {
+      count.value = 0;
+    } else {
+      count.value += randomNUM.value;
+    }
+    localStorage.setItem("VueNum", count.value);
+  }, 1000);
+};
+
+onBeforeUnmount(() => {
+  clearInterval(numTime);
+  clearInterval(numRadom);
+});
 </script>
 
 <style lang="scss" scoped>
@@ -289,9 +349,9 @@ function time() {
           position: absolute;
           top: 0;
           left: 0;
-          z-index: 5;
           height: 10.125rem;
           width: 100%;
+          z-index: 999;
         }
 
         .map1,
@@ -306,7 +366,7 @@ function time() {
           background-image: url("@/assets/image/map.png");
           background-repeat: no-repeat;
           background-size: 100% 100%;
-          opacity: 0.5;
+          opacity: 0.3;
         }
         .map2 {
           width: 8.0375rem;
@@ -321,24 +381,23 @@ function time() {
           width: 7.075rem;
           height: 7.075rem;
           background-image: url("@/assets/image/jt.png");
-          animation: rotate1 10s  infinite linear;
-         
+          animation: rotate1 10s infinite linear;
         }
 
         @keyframes rotate {
           from {
-            transform: translate(-50%,-50%) rotate(0deg);
+            transform: translate(-50%, -50%) rotate(0deg);
           }
           to {
-            transform: translate(-50%,-50%) rotate(360deg);
+            transform: translate(-50%, -50%) rotate(360deg);
           }
         }
         @keyframes rotate1 {
           from {
-            transform: translate(-50%,-50%) rotate(0deg);
+            transform: translate(-50%, -50%) rotate(0deg);
           }
           to {
-            transform: translate(-50%,-50%) rotate(-360deg);
+            transform: translate(-50%, -50%) rotate(-360deg);
           }
         }
       }

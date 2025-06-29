@@ -1,0 +1,33 @@
+{ 
+ "code":200,
+ "success":"获取成功",
+  "data": [
+    {
+      "name": "数码",
+      "value": 45,
+      "itemStyle": {
+        "normal": {
+          "color": "rab(1,0.80)"
+        }
+      }
+    },
+    {
+      "name": "电子",
+      "value": 45,
+      "itemStyle": {
+        "normal": {
+          "color": "rab(1,0.80)"
+        }
+      }
+    },
+    {
+      "name": "家电",
+      "value": 45,
+      "itemStyle": {
+        "normal": {
+          "color": "rab(1,0.80)"
+        }
+      }
+    }
+  ]
+}
