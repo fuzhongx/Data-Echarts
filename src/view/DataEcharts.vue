@@ -375,7 +375,7 @@ onBeforeUnmount(() => {
           background-repeat: no-repeat;
           background-size: 100% 100%;
           animation: rotate 15s linear infinite;
-          z-index: 8;
+          z-index: 1;
         }
         .map3 {
           width: 7.075rem;
